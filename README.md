@@ -1,6 +1,10 @@
 # Research project for Plataformas de desarrollo web class
 
 ## Instructions:
+- npm install
+- npm start
 
--npm install (install all dependencies)
--npm start
+In development by
+----
+
+Sebastian Valle - Sebastian Racedo
