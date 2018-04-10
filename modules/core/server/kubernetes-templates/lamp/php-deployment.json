@@ -1,0 +1,45 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "php-deploymentUNIQUEID"
+  },
+  "spec": {
+    "selector": {
+      "matchLabels": {
+        "app": "phpUNIQUEID"
+      }
+    },
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "phpUNIQUEID"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "phpUNIQUEID",
+            "image": "subv/plataformasdesarrollo:phpdemo_v3",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ],
+            "env": [
+              {
+                "name": "MYSQL_ROOT_PASSWORD",
+                "value": "MYSQLPASSWORD"
+              },
+              {
+                "name": "MYSQL_SERVICE_HOST",
+                "value": "mysql-serviceUNIQUEID"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

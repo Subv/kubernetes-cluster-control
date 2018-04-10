@@ -1,6 +1,6 @@
 {
-  "name": "meanjs",
-  "description": "Fullstack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
+  "name": "cluster-control",
+  "description": "Control UI for a Kubernetes cluster",
   "homepage": "http://meanjs.org/",
   "license": "MIT",
   "dependencies": {

@@ -1,0 +1,41 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "mysql-deploymentUNIQUEID"
+  },
+  "spec": {
+    "selector": {
+      "matchLabels": {
+        "app": "mysqlUNIQUEID"
+      }
+    },
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "mysqlUNIQUEID"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "mysqlUNIQUEID",
+            "image": "mysql:5.7",
+            "ports": [
+              {
+                "containerPort": 3306
+              }
+            ],
+            "env": [
+              {
+                "name": "MYSQL_ROOT_PASSWORD",
+                "value": "MYSQLPASSWORD"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,10 +1,10 @@
 {
-  "name": "meanjs",
-  "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
+  "name": "cluster-control",
+  "description": "Control UI for a Kubernetes cluster",
   "version": "0.6.0",
   "meanjs-version": "0.6.0",
   "private": false,
-  "author": "https://github.com/meanjs/mean/graphs/contributors",
+  "author": "Sebastian Valle & Sebastian Racedo",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
     "seed:test": "gulp seed:test"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.2.1",
     "acl": "^0.4.11",
     "amazon-s3-uri": "0.0.3",
     "async": "~2.5.0",
@@ -75,6 +76,7 @@
     "helmet": "^3.8.2",
     "imagemin-pngquant": "~5.1.0",
     "jasmine-core": "~2.7.0",
+    "kubernetes-client": "^5.2.0",
     "lodash": "~4.17.4",
     "lusca": "~1.5.1",
     "method-override": "^2.3.10",

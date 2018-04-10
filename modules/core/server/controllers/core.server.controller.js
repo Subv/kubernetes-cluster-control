@@ -4,6 +4,11 @@ var validator = require('validator'),
   path = require('path'),
   config = require(path.resolve('./config/config'));
 
+const Kubernetes = require('kubernetes-client');
+const KubeClient = Kubernetes.Client;
+const KubeConfig = Kubernetes.config;
+var fs = require('fs');
+
 /**
  * Render the main application page
  */
@@ -59,5 +64,77 @@ exports.renderNotFound = function (req, res) {
     'default': function () {
       res.send('Path not found');
     }
+  });
+};
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function ErrorReport(type, response) {
+  return function (error) {
+    console.log("Couldn't create the " + type);
+    console.log(error);
+    response.json({ error: error });
+  };
+}
+
+exports.deployStack = function (req, res) {
+  console.log('Deploying from server side');
+  console.log(req.body);
+
+  const client = new KubeClient({ config: KubeConfig.fromKubeconfig(), version: '1.9' });
+
+  // 1. First create the PHP deployment
+  fs.readFile('modules/core/server/kubernetes-templates/lamp/php-deployment.json', 'utf8', function (err, text) {
+
+    var uniqueid = getRandomInt(0, 5000).toString();
+    text = text.replace(new RegExp('UNIQUEID', 'g'), uniqueid);
+    text = text.replace(new RegExp('MYSQLPASSWORD', 'g'), req.body.lamp_mysql_pwd);
+    text = JSON.parse(text);
+
+    client.api.apps.v1.namespaces('default').deployments.post({ body: text }).then(php_deployment_result => {
+      console.log(php_deployment_result);
+      // 2. Create the PHP service
+      fs.readFile('modules/core/server/kubernetes-templates/lamp/php-service.json', 'utf8', function (err, text) {
+        text = text.replace(new RegExp('UNIQUEID', 'g'), uniqueid);
+        text = JSON.parse(text);
+
+        client.api.v1.namespaces('default').services.post({ body: text }).then(php_svc_result => {
+          console.log(php_svc_result);
+
+          // 3. Create the MySQL deployment
+          fs.readFile('modules/core/server/kubernetes-templates/lamp/mysql-deployment.json', 'utf8', function (err, text) {
+            text = text.replace(new RegExp('UNIQUEID', 'g'), uniqueid);
+            text = text.replace(new RegExp('MYSQLPASSWORD', 'g'), req.body.lamp_mysql_pwd);
+            text = JSON.parse(text);
+
+            client.api.apps.v1.namespaces('default').deployments.post({ body: text }).then(mysql_deployment_result => {
+              console.log(mysql_deployment_result);
+
+              // 4. Create the MySQL service
+              fs.readFile('modules/core/server/kubernetes-templates/lamp/mysql-service.json', 'utf8', function (err, text) {
+                text = text.replace(new RegExp('UNIQUEID', 'g'), uniqueid);
+                text = JSON.parse(text);
+
+                client.api.v1.namespaces('default').services.post({ body: text }).then(mysql_svc_result => {
+                  console.log(mysql_svc_result);
+                  res.json({
+                    php: {
+                      deployment_result: php_deployment_result,
+                      svc_result: php_svc_result
+                    },
+                    mysql: {
+                      deployment_result: mysql_deployment_result,
+                      svc_result: mysql_svc_result
+                    }
+                  });
+                }, ErrorReport("mysql-service", res));
+              });
+            }, ErrorReport("mysql-deployment", res));
+          });
+        }, ErrorReport("php-service", res));
+      });
+    }, ErrorReport("php-deployment", res));
   });
 };
