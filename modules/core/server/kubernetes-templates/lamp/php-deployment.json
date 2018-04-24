@@ -21,7 +21,7 @@
         "containers": [
           {
             "name": "phpUNIQUEID",
-            "image": "subv/plataformasdesarrollo:phpdemo_v3",
+            "image": "subv/control-image:latest",
             "ports": [
               {
                 "containerPort": 80
