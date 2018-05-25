@@ -163,8 +163,8 @@ exports.deployStack = function (req, res) {
 
                   UpdateDeployments(req.user, {
                     uniqueid: uniqueid,
-                    php: php_svc_result,
-                    mysql: mysql_svc_result,
+                    php: JSON.stringify(php_svc_result),
+                    mysql: JSON.stringify(mysql_svc_result),
                   });
 
                 }, ErrorReport("mysql-service", res));

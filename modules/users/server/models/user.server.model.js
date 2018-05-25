@@ -125,6 +125,13 @@ var UserSchema = new Schema({
   },
   resetPasswordExpires: {
     type: Date
+  },
+  deployments: {
+    type: [{
+      uniqueid: { type: String },
+      php: { type: String },
+      mysql: { type: String }
+    }]
   }
 });
 
