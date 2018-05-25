@@ -108,7 +108,7 @@ exports.oauthCallback = function (req, res, next) {
         return res.redirect('/authentication/signin');
       }
 
-      return res.redirect(info.redirect_to || '/');
+      return res.redirect(info.redirect_to || '/deployment');
     });
   })(req, res, next);
 };

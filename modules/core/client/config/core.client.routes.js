@@ -27,9 +27,15 @@
     });
 
     $stateProvider
-      .state('home', {
-        url: '/',
+      .state('deployment', {
+        url: '/deployment',
         templateUrl: '/modules/core/client/views/home.client.view.html',
+        controller: 'DeploymentController',
+        controllerAs: 'vm'
+      })
+      .state('home',{
+        url: '/',
+        templateUrl: '/modules/core/client/views/header.client.view.html',
         controller: 'HomeController',
         controllerAs: 'vm'
       })

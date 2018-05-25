@@ -22,9 +22,10 @@
       Notification.error({ message: $location.search().err });
     }
 
-    // If user is signed in then redirect back home
+    // If user is signed in then redirect back to deployment
     if (vm.authentication.user) {
-      $location.path('/');
+      //$state.go('deployment');
+      $location.path('/deployment');
     }
 
     function signup(isValid) {
@@ -69,8 +70,8 @@
       // If successful we assign the response to the global user model
       vm.authentication.user = response;
       Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Signup successful!' });
-      // And redirect to the previous or home page
-      $state.go($state.previous.state.name || 'home', $state.previous.params);
+      // And redirect to the previous or deployment
+      $state.go($state.previous.state.name || 'deployment', $state.previous.params);
     }
 
     function onUserSignupError(response) {
@@ -80,13 +81,17 @@
     function onUserSigninSuccess(response) {
       // If successful we assign the response to the global user model
       vm.authentication.user = response;
+      console.log(vm.authentication)
       Notification.info({ message: 'Welcome ' + response.firstName });
       // And redirect to the previous or home page
-      $state.go($state.previous.state.name || 'home', $state.previous.params);
+      //$state.go($state.previous.state.name || '/deployment', $state.previous.params);
+      console.log('Hola hice log in');
+      
+      $window.location = '/deployment'
     }
 
     function onUserSigninError(response) {
-      Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Signin Error!', delay: 6000 });
+      Notification.error({ message: response.message, title: '<i class="glyphicon glyphicon-remove"></i> Signin Error!', delay: 6000 });
     }
   }
 }());

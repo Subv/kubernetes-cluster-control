@@ -3,15 +3,16 @@
 
   angular
     .module('core')
-    .controller('HeaderController', HeaderController);
+    .controller('HomeController', HomeController);
 
-  HeaderController.$inject = ['$scope', '$state', 'Authentication', 'menuService'];
+    HomeController.$inject = ['$scope', '$state', 'Authentication', 'menuService', '$window'];
 
-  function HeaderController($scope, $state, Authentication, menuService) {
+  function HomeController($scope, $state, Authentication, menuService, w) {
     var vm = this;
 
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;
+    
     vm.isCollapsed = false;
     vm.menu = menuService.getMenu('topbar');
 
@@ -20,6 +21,11 @@
     function stateChangeSuccess() {
       // Collapsing the menu after navigation
       vm.isCollapsed = false;
+    }
+
+    $scope.sign_out = function(){
+      vm.authentication.user = null;
+      w.location = '/api/auth/signout'
     }
   }
 }());

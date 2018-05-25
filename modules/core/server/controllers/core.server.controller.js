@@ -1,8 +1,10 @@
 'use strict';
 
 var validator = require('validator'),
-  path = require('path'),
-  config = require(path.resolve('./config/config'));
+path = require('path'),
+mongoose = require('mongoose'),
+User = mongoose.model('User'),
+config = require(path.resolve('./config/config'));
 
 const Kubernetes = require('kubernetes-client');
 const KubeClient = Kubernetes.Client;
@@ -27,7 +29,10 @@ exports.renderIndex = function (req, res) {
       firstName: validator.escape(req.user.firstName),
       additionalProvidersData: req.user.additionalProvidersData
     };
+    
   }
+
+  console.log(safeUserObject);
 
   res.render('modules/core/server/views/index', {
     user: JSON.stringify(safeUserObject),
@@ -77,6 +82,32 @@ function ErrorReport(type, response) {
     console.log(error);
     response.json({ error: error });
   };
+}
+
+function UpdateDeployments(user, new_deployment){
+  var safeUserObject = null;
+
+  if (user) {
+    safeUserObject = {
+      displayName: validator.escape(user.displayName),
+      provider: validator.escape(user.provider),
+      username: validator.escape(user.username),
+      created: user.created.toString(),
+      roles: user.roles,
+      profileImageURL: user.profileImageURL,
+      email: validator.escape(user.email),
+      lastName: validator.escape(user.lastName),
+      firstName: validator.escape(user.firstName),
+      additionalProvidersData: user.additionalProvidersData
+    };
+    User.findOneAndUpdate({'username': safeUserObject.username}, {$push: {deployments: new_deployment}}, {new: true}, function (error, success) {
+      if (error) {
+        console.log("Error: " + error);
+      } else {
+          console.log("Success: " + success);
+      }
+    });
+  }
 }
 
 exports.deployStack = function (req, res) {
@@ -129,6 +160,13 @@ exports.deployStack = function (req, res) {
                       svc_result: mysql_svc_result
                     }
                   });
+
+                  UpdateDeployments(req.user, {
+                    uniqueid: uniqueid,
+                    php: php_svc_result,
+                    mysql: mysql_svc_result,
+                  });
+
                 }, ErrorReport("mysql-service", res));
               });
             }, ErrorReport("mysql-deployment", res));

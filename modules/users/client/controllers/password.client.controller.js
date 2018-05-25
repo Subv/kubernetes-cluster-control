@@ -15,9 +15,9 @@
     vm.authentication = Authentication;
     vm.getPopoverMsg = PasswordValidator.getPopoverMsg;
 
-    // If user is signed in then redirect back home
+    // If user is signed in then redirect to deployment
     if (vm.authentication.user) {
-      $location.path('/');
+      $location.path('/deployment');
     }
 
     // Submit forgotten password account id

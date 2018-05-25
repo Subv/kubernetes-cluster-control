@@ -3,12 +3,15 @@
 
   angular
     .module('core')
-    .controller('HomeController', HomeController);
+    .controller('DeploymentController', DeploymentController);
 
-  HomeController.$inject = ['$scope', '$http'];
+    DeploymentController.$inject = ['$scope', '$http', '$window', 'Authentication'];
 
-  function HomeController($scope, $http) {
-    var vm = this;
+  function DeploymentController($scope, $http, w, A) {
+
+    if (A.user == null) {
+      w.location = '/'
+    }
 
     $scope.stacks = [{
       'label': "LAMP",
