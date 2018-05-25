@@ -12,6 +12,6 @@ module.exports = function (app) {
 
   app.route('/deploy').post(core.deployStack);
 
-  // Define application route
+    // Define application route
   app.route('/*').get(core.renderIndex);
 };
