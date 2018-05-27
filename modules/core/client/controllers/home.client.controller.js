@@ -33,6 +33,12 @@
       console.log("Deploying LAMP");
       DeployLAMP($scope, $http);
     }
+
+    $scope.ListDeployments = function() {
+      console.log("Redirecting");
+      w.location = '/deploymentlist'
+
+    }
   }
 
   function DeployLAMP($scope, $http) {

@@ -39,6 +39,12 @@
         controller: 'HomeController',
         controllerAs: 'vm'
       })
+      .state('deploymentlist',{
+        url: '/deploymentlist',
+        templateUrl: '/modules/core/client/views/deploymentlist.client.view.html',
+        controller: 'DeploymentListController',
+        controllerAs: 'vm'
+      })
       .state('Login', {
         url: '/Login',
         templateUrl: '/modules/core/client/views/Login.client.view.html'
