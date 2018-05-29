@@ -110,7 +110,7 @@ function UpdateDeployments(user, new_deployment){
   }
 }
 
-function List(user){
+/*function List(user){
   var safeUserObject = null;
 
   if (user) {
@@ -130,14 +130,35 @@ function List(user){
       if(err){
         console.log("Error"+ err);
       }else{
-        console.log(list.deployments)
+        console.log(list.deployments);
       }
     });
   }
-}
+}*/
 exports.ListDeployments = function(req,res){
-  console.log('Listing');
-  List(req.user);
+  var safeUserObject = null;
+  if (req.user) {
+    safeUserObject = {
+      displayName: validator.escape(req.user.displayName),
+      provider: validator.escape(req.user.provider),
+      username: validator.escape(req.user.username),
+      created: req.user.created.toString(),
+      roles: req.user.roles,
+      profileImageURL: req.user.profileImageURL,
+      email: validator.escape(req.user.email),
+      lastName: validator.escape(req.user.lastName),
+      firstName: validator.escape(req.user.firstName),
+      additionalProvidersData: req.user.additionalProvidersData
+    };
+    User.findOne({'username': safeUserObject.username}, 'deployments', function(err, list){
+      if(err){
+        console.log("Error"+ err);
+      }else{
+        console.log(list.deployments);
+        res.json(list.deployments);
+      }
+    });
+  }
 }
 
 exports.deployStack = function (req, res) {

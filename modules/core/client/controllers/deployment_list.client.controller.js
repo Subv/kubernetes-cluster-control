@@ -23,6 +23,8 @@
     function ListDeploys($scope ,$http){
         $http.post('/list', $scope.list).success(function(data){
             console.log("List post success");
+            console.log(data);
+            $scope.list = data;
         }).error(function (error) {
       console.log("List error");
       console.log(error);
