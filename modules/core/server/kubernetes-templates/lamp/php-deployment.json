@@ -21,10 +21,15 @@
         "containers": [
           {
             "name": "phpUNIQUEID",
-            "image": "subv/control-image:latest",
+            "image": "subv/php-deployment:latest",
             "ports": [
               {
-                "containerPort": 80
+                "containerPort": 80,
+                "name": "application"
+              },
+              {
+                "containerPort": 3131,
+                "name": "ide"
               }
             ],
             "env": [
