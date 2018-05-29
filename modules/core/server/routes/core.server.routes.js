@@ -11,6 +11,8 @@ module.exports = function (app) {
   app.route('/:url(api|modules|lib)/*').get(core.renderNotFound);
 
   app.route('/deploy').post(core.deployStack);
+  app.route('/list').post(core.ListDeployments);
+
 
     // Define application route
   app.route('/*').get(core.renderIndex);

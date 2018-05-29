@@ -5,13 +5,14 @@
                <table width="100%" class="table">
                <thead>
                <tr>
-               <th ng-repeat="(header, value) in MyRecCollection[0]">{{header}}</th>
+               <th ng-repeat="(header, value) in list">{{header}}</th>
                </tr>
                </thead>
                <tbody>
-               <tr ng-repeat="row in MyRecCollection | filter:searchText">
+               <tr ng-repeat="row in list | filter:searchText">
                <td ng-repeat="cell in row">{{cell}}</td>
                </tr>
                </tbody>
                </table>
+               <input type="submit" value="Return" class="btn btn-primary" ng-click="ReturnTo()" />
 </section> 

@@ -110,6 +110,36 @@ function UpdateDeployments(user, new_deployment){
   }
 }
 
+function List(user){
+  var safeUserObject = null;
+
+  if (user) {
+    safeUserObject = {
+      displayName: validator.escape(user.displayName),
+      provider: validator.escape(user.provider),
+      username: validator.escape(user.username),
+      created: user.created.toString(),
+      roles: user.roles,
+      profileImageURL: user.profileImageURL,
+      email: validator.escape(user.email),
+      lastName: validator.escape(user.lastName),
+      firstName: validator.escape(user.firstName),
+      additionalProvidersData: user.additionalProvidersData
+    };
+    User.findOne({'username': safeUserObject.username}, 'deployments', function(err, list){
+      if(err){
+        console.log("Error"+ err);
+      }else{
+        console.log(list.deployments)
+      }
+    });
+  }
+}
+exports.ListDeployments = function(req,res){
+  console.log('Listing');
+  List(req.user);
+}
+
 exports.deployStack = function (req, res) {
   console.log('Deploying from server side');
   console.log(req.body);
