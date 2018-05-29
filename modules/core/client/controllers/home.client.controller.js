@@ -54,6 +54,7 @@
         // Everything was created successfully
         $scope.success = true;
         $scope.php_port = php_svc_result.body.spec.ports[0].nodePort;
+        $scope.ide_port = php_svc_result.body.spec.ports[1].nodePort;
         $scope.mysql_port = mysql_svc_result.body.spec.ports[0].nodePort;
       } else {
         // There was some kind of error

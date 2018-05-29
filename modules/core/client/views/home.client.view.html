@@ -60,6 +60,8 @@
     <div class="alert alert-success" ng-show="success == true">
         PHP deployed successfully on
         <a target="_blank" href="http://localhost:{{ php_port }}">localhost:{{ php_port }}</a>
+        <br /> IDE accessible at
+        <a target="_blank" href="http://localhost:{{ ide_port }}">localhost:{{ ide_port }}</a>
         <br /> MySQL deployed successfully on port {{ mysql_port }}
     </div>
     <div class="alert alert-danger" ng-show="success == false">
