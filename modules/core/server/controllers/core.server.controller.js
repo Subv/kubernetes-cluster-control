@@ -218,6 +218,14 @@ exports.deployStack = function (req, res) {
                     mysql: JSON.stringify(mysql_svc_result),
                   });
 
+                  // Create the nginx subdomain for this container
+                  var nginx_template = fs.readFileSync('modules/core/server/nginx-templates/apache.conf', 'utf8');
+                  var containerName = req.user.username + uniqueid;
+                  nginx_template = nginx_template.replace(new RegExp('CONTAINERNAME', 'g'), containerName);
+                  nginx_template = nginx_template.replace(new RegExp('IDEPORT', 'g'), php_svc_result.body.spec.ports[1].nodePort);
+                  nginx_template = nginx_template.replace(new RegExp('APACHEPORT', 'g'), php_svc_result.body.spec.ports[0].nodePort);
+                  fs.writeFileSync('/etc/nginx/sites-available/kubecluster-domains/' + containerName + '.conf', nginx_template);
+
                 }, ErrorReport("mysql-service", res));
               });
             }, ErrorReport("mysql-deployment", res));
