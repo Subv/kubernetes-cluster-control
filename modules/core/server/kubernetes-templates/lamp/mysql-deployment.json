@@ -22,6 +22,16 @@
           {
             "name": "mysqlUNIQUEID",
             "image": "mysql:5.7",
+            "resources": {
+              "limits": {
+                "memory": "1Gi",
+                "cpu": "1"
+              },
+              "requests": {
+                "memory": "512Mi",
+                "cpu": "0.4"
+              }
+            },
             "ports": [
               {
                 "containerPort": 3306
