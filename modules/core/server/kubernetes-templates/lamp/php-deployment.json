@@ -24,10 +24,10 @@
             "image": "subv/php-deployment:latest",
             "resources": {
               "limits": {
-                "memory": "512Mi",
+                "memory": "512Mi"
               },
               "requests": {
-                "memory": "256Mi",
+                "memory": "256Mi"
               }
             },
             "ports": [

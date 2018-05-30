@@ -24,10 +24,10 @@
             "image": "mysql:5.7",
             "resources": {
               "limits": {
-                "memory": "1Gi",
+                "memory": "1Gi"
               },
               "requests": {
-                "memory": "512Mi",
+                "memory": "512Mi"
               }
             },
             "ports": [
