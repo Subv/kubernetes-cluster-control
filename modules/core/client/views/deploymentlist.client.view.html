@@ -3,16 +3,17 @@
     Deployments
         <div class="cal-md-6">
                 
-               <table width="100%" class="table">
+               <table width="50%" class="table">
                <thead>
                <tr>
-               <th ng-repeat="(header, value) in list">{{header}}</th>
+               <th ng-repeat="(header,value) in Headers[0]">{{header}}</th>
                </tr>
                </thead>
                <tbody>
-               <tr ng-repeat="row in list | filter:searchText">
-               <td ng-repeat="cell in row">{{cell}}</td>
-               </tr>
+                    <tr ng-repeat="id in found">
+                      <td ><a href="http://{{user}}{{id}}.lvh.me">http://{{user}}{{id}}.lvh.me</a></td>
+                      <td ><a href="http://ide.{{user}}{{id}}.lvh.me">http://ide.{{user}}{{id}}.lvh.me</a></td>
+                    </tr>                
                </tbody>
                </table>
                <input type="submit" value="Return" class="btn btn-primary" ng-click="ReturnTo()" />
