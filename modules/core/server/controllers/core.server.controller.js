@@ -10,7 +10,7 @@ const Kubernetes = require('kubernetes-client');
 const KubeClient = Kubernetes.Client;
 const KubeConfig = Kubernetes.config;
 var fs = require('fs');
-var NginxReloader = new require('nginx-reload');
+const { exec } = require('child_process');
 
 /**
  * Render the main application page
@@ -227,7 +227,7 @@ exports.deployStack = function (req, res) {
                   nginx_template = nginx_template.replace(new RegExp('APACHEPORT', 'g'), php_svc_result.body.spec.ports[0].nodePort);
                   fs.writeFileSync('/etc/nginx/sites-available/kubecluster-domains/' + containerName + '.conf', nginx_template);
                   // Reload nginx
-                  NginxReloader.reload();
+                  exec('sudo nginx -s reload');
 
                 }, ErrorReport("mysql-service", res));
               });
